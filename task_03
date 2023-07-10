@@ -1,0 +1,58 @@
+Dockerfile:
+
+# Base image
+FROM python:3.8
+
+# Set working directory
+WORKDIR /app
+
+# Copy training and inference scripts
+COPY train.py /app/train.py
+COPY inference.py /app/inference.py
+
+# Install dependencies
+RUN pip install pandas scikit-learn
+
+# Set entrypoint
+ENTRYPOINT ["python", "inference.py"]
+
+
+
+Bash CMD:
+# Build the Docker image
+docker build -t my-container-image .
+
+# Tag the image
+docker tag my-container-image:latest <registry>/<repository>:<tag>
+
+# Log in to the container registry
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <registry>
+
+# Push the image to the container registry
+docker push <registry>/<repository>:<tag>
+
+
+terraform code:
+
+# Configure AWS provider
+provider "aws" {
+  region = "us-west-2"  # Replace with your desired region
+}
+
+# Create SageMaker training job
+resource "aws_sagemaker_training_job" "training_job" {
+  training_job_name  = "my-training-job"
+  algorithm_specification {
+    training_image = "<registry>/<repository>:<tag>"
+    training_input_mode = "File"
+    ...
+  }
+  ...
+}
+
+# Create SageMaker inference endpoint
+resource "aws_sagemaker_endpoint" "inference_endpoint" {
+  endpoint_name = "my-inference-endpoint"
+  endpoint_config_name = "my-inference-endpoint-config"
+  ...
+}
