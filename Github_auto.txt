@@ -1,0 +1,21 @@
+Github Actions:
+	this is a feature in github to create custom automated workflows. by the help of it we
+	can automate SDLC workflows, we can implement CI-CD devops.
+
+DEMO:
+	Steps:
+		1) Go to Github Account.
+		2) Create a new repo.
+		3) Create .github/workflows dir in the repo. (here we store all our workflows)
+		4) In the folder create YAML file with .yml extension.
+		5) Add the content in the workflow file.
+		6) Commit ans push the changes.
+		7) Go to Repo -> Actions
+
+Terms: 
+	WrokFlow: Collection of jobs, defind in a YAML files = name
+	Events: any activity in the repo that can trigger a workflow = on
+	Jobs: Collection of steps = jobs
+	Steps: acction to be taken, commands, scripts
+ 		
+		
